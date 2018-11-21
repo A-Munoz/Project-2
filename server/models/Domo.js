@@ -7,26 +7,6 @@ let DomoModel = {};
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
-//The need values of the each bubble
-const bubbleSchema = new mongoose.Schema({
-   radius: {
-       type: Number,
-       default: 60
-   }, 
-   increaseRate: {
-       type: Number,
-       default: 60
-   },
-   color: {
-       type: String,
-       default: '##ED5565'
-   },
-     currentSelected: {
-       type: Boolean,
-       default: false
-   }, 
-});
-
 const DomoSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -34,9 +14,51 @@ const DomoSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
-  bubbles: { //A array of bubbles
-    type: [bubbleSchema],
-    default: undefined,
+  age: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+  level: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
+  class: {
+    type: String,
+    require: true,
+    trim: true,
+    set: setName,
+  },
+  health: {
+    type: Number,
+    default: 30,
+    required: true,
+  },
+  str: {
+    type: Number,
+    default: 10,
+    required: true,
+  },
+  dex: {
+    type: Number,
+    default: 10,
+    required: true,
+  },
+  int: {
+    type: Number,
+    default: 10,
+    required: true,
+  },
+  wis: {
+    type: Number,
+    default: 10,
+    required: true,
+  },
+  con: {
+    type: Number,
+    default: 10,
+    required: true,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -49,9 +71,17 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-
 DomoSchema.statics.toAPI = (doc) => ({
   name: doc.name,
+  age: doc.age,
+  level: doc.level,
+  class: doc.class,
+  dex: doc.dex,
+  wis: doc.wis,
+  str: doc.str,
+  int: doc.int,
+  con: doc.con,
+  health: doc.health,
 });
 
 DomoSchema.statics.findByOwner = (ownerId, callback) => {
@@ -59,7 +89,7 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return DomoModel.find(search).select('name').exec(callback);
+  return DomoModel.find(search).select('name age level').exec(callback);
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);

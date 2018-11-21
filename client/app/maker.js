@@ -16,7 +16,15 @@ const handleDomo = (e) => {
         
         loadDomosFromServer();
         
-    });    
+    });
+    
+      sendAjax('POST', $("#clearDomos").attr("action"), $("#domoForm").serialize(), function() {
+        
+       clearDomos();
+        
+    });
+    
+    
     return false;
 };
 
@@ -31,12 +39,40 @@ const DomoForm = (props) => {
             className="domoForm"
         >
         <label htmlFor="name">Name: </label>
-        <input id="domoName" type="text" name="name" placeholder="File Name"/>
-       
+        <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
+        <label htmlFor="age">Age: </label>
+        <input id="domoAge" type="text" name="age" placeholder="Age"/>
+        
+         <label htmlFor="level">Level: </label>
+        <input id="domolevel" type="text" name="level" placeholder="Level"/>
+        
+         <label htmlFor="class">Class: </label>
+        <input id="domoClass" type="text" name="class" placeholder="Character Class"/>
+        
+         <label htmlFor="health">Health: </label>
+        <input id="domoHealth" type="text" name="health" placeholder="30"/>
+        
+         <label htmlFor="str">Strength: </label>
+        <input id="domoStr" type="text" name="str" placeholder="10"/>
+        
+         <label htmlFor="dex">Dexterity: </label>
+        <input id="domoDex" type="text" name="dex" placeholder="10"/>
+        
+         <label htmlFor="int">Intellegence: </label>
+        <input id="domoInt" type="text" name="int" placeholder="10"/>
+        
+         <label htmlFor="wis">Wisdom: </label>
+        <input id="domoWis" type="text" name="wis" placeholder="10"/>
+        
+         <label htmlFor="con">Strength: </label>
+        <input id="domoCon" type="text" name="con" placeholder="10"/>
+        
+    
+        
         <input type="hidden" name="_csrf" value={props.csrf}/>
-        <input className="makeDomoSubmit" type="submit" value="Make File"/>
+        <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
     </form>
-      
+    
         
     );
 };
@@ -47,17 +83,28 @@ const DomoList = function(props) {
         return (
             <div className="domoList">
                 <h3 className="emptyDomo">No Domos yet</h3>
-            </div>
+           
         );
     }
 
     const domoNodes = props.domos.map(function(domo) {
         
         return (
-            <div key={domo._id} className="domo" onclick="/canvas">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
+        <div className="domoList">
+            <div key={domo._id} className="domo">
+                <img src={domo.img} alt="domo face" className="domoFace"/>
                 <h3 className="domoName">Name: {domo.name}</h3>
+                <h3 className="domoAge">Age: {domo.age}</h3>
+                <h3 className="domoLevel">Level: {domo.level}</h3>
+                <h3 className="domoClass">Class: {domo.class}</h3>
+                <h3 className="domoHealth">Health: {domo.health}</h3>
+                <h3 className="domoStr">Strength: {domo.str}</h3>
+                <h3 className="domoDex">Dexterity: {domo.dex}</h3>
+                <h3 className="domoWis">Wisdom: {domo.wis}</h3>
+                <h3 className="domoInt">Intellegency: {domo.int}</h3>
+                <h3 className="domoCon">Constitution: {domo.con}</h3>
             </div>
+         </div>
         );
     });
 
@@ -68,6 +115,7 @@ const DomoList = function(props) {
         </div>
     );
 };
+
 
 const loadDomosFromServer = () => {
     sendAjax('GET', '/getDomos', null, (data) => {

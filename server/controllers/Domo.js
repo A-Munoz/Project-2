@@ -3,15 +3,23 @@ const Domo = models.Domo;
 
 
 const makeDomo = (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).json({ error: 'RAWR! Every File needs a Name' });
+  if (!req.body.name || !req.body.age || !req.body.level) {
+    return res.status(400).json({ error: 'all fields are required' });
   }
 
   const domoData = {
     name: req.body.name,
+    age: req.body.age,
+    level: req.body.level,
+    class: req.body.class,
+    health: req.body.health,
+    wis: req.body.wis,
+    int: req.body.int,
+    dex: req.body.dex,
+    str: req.body.str,
+    con: req.body.con,
     owner: req.session.account._id,
   };
-
   const newDomo = new Domo.DomoModel(domoData);
   const domoPromise = newDomo.save();
 
@@ -20,7 +28,7 @@ const makeDomo = (req, res) => {
   domoPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'File already exists' });
+      return res.status(400).json({ error: 'Domo already exists' });
     }
 
     return res.status(400).json({ error: 'An error occured' });
@@ -30,6 +38,16 @@ const makeDomo = (req, res) => {
 };
 
 const makerPage = (req, res) => {
+  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+
+    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
+  });
+};
+const makeSettings = (req, res) => {
   Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -53,7 +71,12 @@ const getDomos = (request, response) => {
   });
 };
 
+const clearDomos = () => {
+  Domo.DomoModel.length = 0;
+};
 
 module.exports.makerPage = makerPage;
+module.exports.makeSettings = makeSettings;
 module.exports.getDomos = getDomos;
 module.exports.make = makeDomo;
+module.exports.clearDomos = clearDomos;

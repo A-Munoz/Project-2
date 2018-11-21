@@ -5,9 +5,9 @@ var handleDomo = function handleDomo(e) {
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
 
-    if ($("#domoName").val() == '')  {
+    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoLevel").val() == '')  {
 
-        handleError("RAWR! All fields are required");
+        handleError("Name age and level are required");
         return false;
     }
 
@@ -20,20 +20,13 @@ var handleDomo = function handleDomo(e) {
 
     return false;
 };
-var loadCanvas = function handleDomo(e) {
-    e.preventDefault();
-    console.log('click');
-    sendAjax('POST', $("$domo").attr("action"), $("#domoForm").serialize(), redirect);
-
-    return false;
-};
 
 var DomoForm = function DomoForm(props) {
     return React.createElement(
         "form",
         { id: "domoForm",
             onSubmit: handleDomo,
-            name: "domoForm", 
+            name: "domoForm",
             action: "/maker",
             method: "POST",
             className: "domoForm"
@@ -43,10 +36,82 @@ var DomoForm = function DomoForm(props) {
             { htmlFor: "name" },
             "Name: "
         ),
-        React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "File Name" }),
+        React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "Name" }),
+        React.createElement(
+            "label",
+            { htmlFor: "age" },
+            "Age: "
+        ),
+        React.createElement("input", { id: "domoAge", type: "text", name: "age", placeholder: "Age" }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'level' },
+            'Level: '
+        ),
+        React.createElement('input', { id: 'domoLevel', type: 'text', name: 'level', placeholder: 'Character Level' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'class' },
+            'Class: '
+        ),
+        React.createElement('input', { id: 'domoClass', type: 'text', name: 'class', placeholder: 'Character Class' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'health' },
+            'Health: '
+        ),
+        React.createElement('input', { id: 'domoHealth', type: 'text', name: 'health', placeholder: '30' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'str' },
+            'Str: '
+        ),
+        React.createElement('input', { id: 'domoStr', type: 'text', name: 'str', placeholder: '10' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'dex' },
+            'Dex: '
+        ),
+        React.createElement('input', { id: 'domoDex', type: 'text', name: 'dex', placeholder: '10' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'int' },
+            'Int: '
+        ),
+        React.createElement('input', { id: 'domoInt', type: 'text', name: 'Int', placeholder: '10' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'wis' },
+            'Wis: '
+        ),
+        React.createElement('input', { id: 'domoWis', type: 'text', name: 'wis', placeholder: '10' }),
+        
+         React.createElement(
+            'label',
+            { htmlFor: 'con'},
+            'Con: '
+        ),
+        React.createElement('input', { id: 'domoCon', type: 'text', name: 'con', placeholder: '10' }),
+        
 
+     
+        
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-        React.createElement("input", { className: "makeDomoSubmit", type: "submit", value: "New File" })
+        
+        React.createElement("input", { className: "makeDomoSubmit", type: "submit", value: "Make Character" }),
+        
+         React.createElement(
+                "h3",
+                { className: "AD" },
+                "AD ",
+            )
     );
 };
 
@@ -68,18 +133,67 @@ var DomoList = function DomoList(props) {
 
         return React.createElement(
             "div",
-            { key: domo._id, 
-             className: "domo",
-             action: "/canvas",
-             method: "POST",
-             onclick: loadCanvas,
-            },
-            React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
+            { key: domo._id, className: "domo" },
+            React.createElement("img", { src:"/assets/img/face.png", alt: "domo face", className: "domoFace" }),
             React.createElement(
                 "h3",
                 { className: "domoName" },
                 "Name: ",
                 domo.name
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoAge" },
+                "Age: ",
+                domo.age
+            ),
+             React.createElement(
+                "h3",
+                { className: "domoLevel" },
+                "Level: ",
+                domo.level
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoClass" },
+                "Class: ",
+                domo.class
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoHealth" },
+                "Health: ",
+                domo.health
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoStr" },
+                "Str: ",
+                domo.str
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoDex" },
+                "Dex: ",
+                domo.dex
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoInt" },
+                "Int: ",
+                domo.int
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoWis" },
+                "Wis: ",
+                domo.wis
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoCon" },
+                "Con: ",
+                domo.con
             ),
         );
     });
@@ -91,12 +205,12 @@ var DomoList = function DomoList(props) {
     );
 };
 
+
 var loadDomosFromServer = function loadDomosFromServer() {
     sendAjax('GET', '/getDomos', null, function (data) {
         ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector("#domos"));
     });
 };
-
 
 var setup = function setup(csrf) {
 
