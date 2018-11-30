@@ -305,3 +305,31 @@ footer{
     margin-top: 60%;
     position: absolute;  
 }
+.g-signin2{
+    align-content: center;
+    margin: 0 45% 0 45%;
+}
+.planInfo{
+   border: 2px solid #210124;
+    border-radius: 4px;
+    background-color: #210124;
+    max-width: 45%;
+    margin: 10%;
+    padding: 25px 50px 25px 50px;
+   font-family: 'Cinzel', serif;
+    color: white;
+}
+.settings{
+   border: 2px solid #210124;
+    border-radius: 4px;
+    background-color: #210124;
+    max-width: 45%;
+    margin: 10%;
+    padding: 25px 50px 25px 50px;
+   font-family: 'Cinzel', serif;
+    color: white;
+}
+#flex{
+    display: flex;
+    flex-wrap: wrap; 
+}

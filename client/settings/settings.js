@@ -32,13 +32,9 @@ const passwordUpdateWindow = (props) => {
     );
 };
 
-const setup = (csrf) => {
+const setup = (csrf) => {    
     ReactDOM.render(
-        <PremiumUserWindow csrf={csrf} />, document.querySelector("#premiumUser")
-    );
-    
-    ReactDOM.render(
-        <PasswordChangeWindow csrf={csrf} />, document.querySelector("#passwordChange")
+        <PasswordChangeWindow csrf={csrf} />, document.querySelector("#settings")
     );
 };
 
