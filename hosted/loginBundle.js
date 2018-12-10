@@ -1,6 +1,7 @@
 "use strict";
 
 var handleLogin = function handleLogin(e) {
+
     e.preventDefault();
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
@@ -22,12 +23,14 @@ var handleSignup = function handleSignup(e) {
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
 
-    if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == ''|| $("#disName").val() == '') {
-        handleError("RAWR! Username, Display Name or password is empty");
+    if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+
+        handleError("RAWR! Username,Display Name or password is empty");
         return false;
     }
 
     if ($("#pass").val() !== $("#pass2").val()) {
+
         handleError("RAWR! Passwords do not map");
         return false;
     }
@@ -100,10 +103,12 @@ var SignupWindow = function SignupWindow(props) {
 };
 
 var createLoginWindow = function createLoginWindow(csrf) {
+
     ReactDOM.render(React.createElement(LoginWindow, { csrf: csrf }), document.querySelector('#content'));
 };
 
 var createSignupWindow = function createSignupWindow(csrf) {
+
     ReactDOM.render(React.createElement(SignupWindow, { csrf: csrf }), document.querySelector('#content'));
 };
 
@@ -123,7 +128,7 @@ var setup = function setup(csrf) {
         return false;
     });
 
-    createLoginWindow(csrf);
+    createLoginWindow(csrf); //default view
 };
 
 var getToken = function getToken() {

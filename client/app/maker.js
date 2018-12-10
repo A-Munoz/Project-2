@@ -85,7 +85,7 @@ const DomoForm = (props) => {
     );
 };
 
-const removalForm = (props) => {
+const RemovalForm = (props) => {
     return (    
     <form id="removeButton"
             onSubmit={handleRemoval}
@@ -112,7 +112,7 @@ const DomoList = function(props) {
         return (
             <div className="domoList">
                 <h3 className="emptyDomo">No characters yet</h3>
-           
+            </div>
         );
     }
 
@@ -121,7 +121,6 @@ const DomoList = function(props) {
         return (
         <div className="domoList">
             <div key={domo._id} className="domo">
-                <img src={domo.img} alt="domo face" className="domoFace"/>
                 <h3 className="domoName">Name: {domo.name}</h3>
                 <h3 className="domoAge">Age: {domo.age}</h3>
                 <h3 className="domoLevel">Level: {domo.level}</h3>
@@ -159,8 +158,9 @@ const setup = function(csrf) {
     ReactDOM.render(
         <DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
     );
-     ReactDOM.render(
-        <removalForm csrf={csrf} />, document.querySelector("#removalChar")
+    
+    ReactDOM.render(
+        <RemovalForm csrf={csrf} />, document.querySelector("#removeChar")
     );
 
     ReactDOM.render(

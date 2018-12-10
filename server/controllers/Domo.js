@@ -39,11 +39,14 @@ const makeDomo = (req, res) => {
 const removeChar = (request, response) => {
     const req = request;
     const res = response;
-    return Domo.DomoModel.removeCharacter(req.session.account._id, req.body.name,(err) => {
-        if(err){
+    
+    Domo.DomoModel.removeCharacter(req.session.account._id, req.body.charName, (err) => {
+        
+        if(err){ 
             console.log(err);
             return res.status(400).json({ error: 'An error occured' });
         }
+        
         return res.json({message: 'Character Removed'});
     });
 }
