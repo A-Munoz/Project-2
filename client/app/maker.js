@@ -3,7 +3,7 @@ const handleDomo = (e) => {
 
     $("#domoMessage").animate({width:'hide'}, 350);
 
-    if($("#domoName").val() == '' || $("#domoAge").val() =='') {
+    if($("#domoName").val() == '' || $("#domoAge").val() == '') {
         
         handleError("RAWR! All fields are required");
         return false;
@@ -18,15 +18,23 @@ const handleDomo = (e) => {
         
     });
     
-      sendAjax('POST', $("#clearDomos").attr("action"), $("#domoForm").serialize(), function() {
-        
-       clearDomos();
-        
-    });
-    
-    
     return false;
 };
+
+const handleRemoval = (e) => {
+    e.preventDefault();
+    $("#domoMessage").animate({width:'hide'}, 350);
+    
+    if($("#charName").val() == '') {
+        handleError("Name is needed");
+        return false
+    }
+    
+console.log($("input[name=_csrf]").val());
+    sendAjax('POST', $("#removeButton").attr("action"), $("#removeButton").serialize(), function() {
+        loadDomosFromServer();
+    });
+}
 
 const DomoForm = (props) => {
     return (
@@ -77,12 +85,33 @@ const DomoForm = (props) => {
     );
 };
 
+const removalForm = (props) => {
+    return (    
+    <form id="removeButton"
+            onSubmit={handleRemoval}
+            name="removeButton"
+            action="/delete"
+            method="POST"
+            className="removeButton"
+        >  
+         <label htmlFor="charName">Name: </label>
+        <input id="charName" type="text" name="charName" placeholder="Character Name"/>
+        
+        <input type="hidden" name="_csrf" value={props.csrf}/>
+       <input className="removeCharSubmit" type="submit" value="Delete"/>
+    </form>
+    
+        
+    );
+};
+
+
 const DomoList = function(props) {
     
     if (props.domos.length === 0) {
         return (
             <div className="domoList">
-                <h3 className="emptyDomo">No Domos yet</h3>
+                <h3 className="emptyDomo">No characters yet</h3>
            
         );
     }
@@ -129,6 +158,9 @@ const setup = function(csrf) {
 
     ReactDOM.render(
         <DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
+    );
+     ReactDOM.render(
+        <removalForm csrf={csrf} />, document.querySelector("#removalChar")
     );
 
     ReactDOM.render(

@@ -10,33 +10,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
   <link rel="shortcut icon" href="/assets/img/favicon.png"/>
   <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
-    
- <meta name="google-signin-scope" content="profile email">
-   <meta name="google-signin-client_id" content="249875194231-5lrh6dtuku49dn5e72nd19b6tqa702u0.apps.googleusercontent.com">
-   <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body> 
   <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/> Character Creator</a>
     <div class="navlink"><a id="loginButton" href="/login">Login</a><a id="signupButton" href="/signup">Sign up</a></div>
   </nav>
   <section id="content"></section>
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"> (May not work)</div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      };
-    </script>
   <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
     <h3><span id="errorMessage">Wrong username or password</span></h3><img id="domo" src="assets/img/domo.png" alt="domo"/>
   </div>

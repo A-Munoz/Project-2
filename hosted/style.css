@@ -52,20 +52,20 @@ nav:nth-child(1) {
     transition: background-color 0.8s ease;
     background-color: #748416;
 }
-
-.domoForm {
-    border: 0 0 2px 2px solid #338acc;
+#sidebar {
     height: 100%;
     width: 15%;
     min-width: 100px;
     margin-top:0px;
     margin-right: 75wv;
-    padding-top:10px;
     background-color: #9BAD37;
-    border-bottom-right-radius: 4px;
     float: left;
     position: fixed;
     top: 50px;
+}
+
+.domoForm {
+ padding-top: 5px;
 }
 
 .domoForm label {
@@ -73,7 +73,7 @@ nav:nth-child(1) {
     width: 75px;
     margin-left: 10px;
     font-size: 1.2em;
-    padding-top: 20px;
+    padding-top: 8px;
     color: white;
     
 }

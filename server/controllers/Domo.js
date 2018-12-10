@@ -3,10 +3,9 @@ const Domo = models.Domo;
 
 
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age || !req.body.level) {
+  if (!req.body.name || !req.body.age ||!req.body.level) {
     return res.status(400).json({ error: 'all fields are required' });
   }
-
   const domoData = {
     name: req.body.name,
     age: req.body.age,
@@ -20,6 +19,7 @@ const makeDomo = (req, res) => {
     con: req.body.con,
     owner: req.session.account._id,
   };
+
   const newDomo = new Domo.DomoModel(domoData);
   const domoPromise = newDomo.save();
 
@@ -28,7 +28,7 @@ const makeDomo = (req, res) => {
   domoPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Domo already exists' });
+      return res.status(400).json({ error: 'Character already exists' });
     }
 
     return res.status(400).json({ error: 'An error occured' });
@@ -36,6 +36,17 @@ const makeDomo = (req, res) => {
 
   return domoPromise;
 };
+const removeChar = (request, response) => {
+    const req = request;
+    const res = response;
+    return Domo.DomoModel.removeCharacter(req.session.account._id, req.body.name,(err) => {
+        if(err){
+            console.log(err);
+            return res.status(400).json({ error: 'An error occured' });
+        }
+        return res.json({message: 'Character Removed'});
+    });
+}
 
 const makerPage = (req, res) => {
   Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
@@ -48,13 +59,13 @@ const makerPage = (req, res) => {
   });
 };
 const makeSettings = (req, res) => {
-  Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+  Domo.DomoModel.findByOwner(req.session.account._id, (err) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error occurred' });
     }
 
-    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
+    return res.render('settings', { csrfToken: req.csrfToken() });
   });
 };
 
@@ -71,12 +82,9 @@ const getDomos = (request, response) => {
   });
 };
 
-const clearDomos = () => {
-  Domo.DomoModel.length = 0;
-};
 
 module.exports.makerPage = makerPage;
 module.exports.makeSettings = makeSettings;
 module.exports.getDomos = getDomos;
 module.exports.make = makeDomo;
-module.exports.clearDomos = clearDomos;
+module.exports.removeChar = removeChar;

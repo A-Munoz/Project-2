@@ -6,6 +6,7 @@ let DomoModel = {};
 
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
+const setClass = (cClass) => _.escape(cClass).trim();
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -26,39 +27,33 @@ const DomoSchema = new mongoose.Schema({
   },
   class: {
     type: String,
-    require: true,
     trim: true,
-    set: setName,
+    set: setClass,
+    default: 'fighter',
   },
   health: {
     type: Number,
-    default: 30,
-    required: true,
+    default: 10,
   },
   str: {
     type: Number,
     default: 10,
-    required: true,
   },
   dex: {
     type: Number,
     default: 10,
-    required: true,
   },
   int: {
     type: Number,
     default: 10,
-    required: true,
   },
   wis: {
     type: Number,
     default: 10,
-    required: true,
   },
   con: {
     type: Number,
     default: 10,
-    required: true,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -89,7 +84,19 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return DomoModel.find(search).select('name age level').exec(callback);
+  return DomoModel.find(search).select('name age').exec(callback);
+};
+DomoSchema.statics.removeCharacter = (ownerId, cName, callback) => {
+
+    return DomoModel.deleteOne({name: cName}, function(error){
+        return handleError(error);
+    });
+};
+DomoSchema.statics.update = (ownerId, cName, callback) => {
+ //https://mongoosejs.com/docs/models.html
+    return DomoModel.updateone({name: cName}, function(error){
+        return handleError(error);
+    });
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);

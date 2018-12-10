@@ -5,7 +5,7 @@ var handleDomo = function handleDomo(e) {
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
 
-    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoLevel").val() == '')  {
+    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoLevel").val() == '' || $("#domoClass").val() == '')  {
 
         handleError("Name age and level are required");
         return false;
@@ -15,6 +15,26 @@ var handleDomo = function handleDomo(e) {
 
     sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
 
+        loadDomosFromServer();
+    });
+
+    return false;
+};
+
+var handleRemoval = function handleRemoval(e) {
+    e.preventDefault();
+
+    $("#domoMessage").animate({ width: 'hide' }, 350);
+
+    if ($("#charName").val() == '')  {
+
+        handleError("Name is needed");
+        return false;
+    }
+
+    console.log($("input[name=_csrf]").val());
+
+     sendAjax('POST', $("#removeButton").attr("action"), $("#removeButton").serialize(), function() {
         loadDomosFromServer();
     });
 
@@ -91,7 +111,7 @@ var DomoForm = function DomoForm(props) {
             { htmlFor: 'wis' },
             'Wis: '
         ),
-        React.createElement('input', { id: 'domoWis', type: 'text', name: 'wis', placeholder: '10' }),
+        React.createElement('input', { id: 'dom', type: 'text', name: 'wis', placeholder: '10' }),
         
          React.createElement(
             'label',
@@ -106,13 +126,31 @@ var DomoForm = function DomoForm(props) {
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
         
         React.createElement("input", { className: "makeDomoSubmit", type: "submit", value: "Make Character" }),
-        
+        )
+};
+
+var removalForm = function removalForm(props) {
+    return React.createElement(
+        "form",
+        { id: "removeButton",
+            onSubmit: handleRemoval,
+            name: "removeButton",
+            action: "/delete",
+            method: "POST",
+            className: "removeButton"
+        },
          React.createElement(
-                "h3",
-                { className: "AD" },
-                "AD ",
-            )
-    );
+            'label',
+            { htmlFor: 'charName'},
+            'Name: '
+        ),
+        React.createElement('input', { id: 'charName', type: 'text', name: 'charName', placeholder: 'Character Name' }),
+        
+        
+        React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
+        
+        React.createElement("input", { className: "makeDomoSubmit", type: "submit", value: "Delete Character" }),
+);
 };
 
 var DomoList = function DomoList(props) {
@@ -124,7 +162,7 @@ var DomoList = function DomoList(props) {
             React.createElement(
                 "h3",
                 { className: "emptyDomo" },
-                "No Domos yet"
+                "No Characters"
             )
         );
     }
@@ -215,6 +253,8 @@ var loadDomosFromServer = function loadDomosFromServer() {
 var setup = function setup(csrf) {
 
     ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
+    
+    ReactDOM.render(React.createElement(removalForm, { csrf: csrf }), document.querySelector("#removeChar"));
 
     ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector("#domos"));
 

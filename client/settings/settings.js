@@ -3,7 +3,7 @@ const handleUpdate = (e) => {
     
     $("#domoMessage").animate({width: 'hide'}, 350);
     
-    if ($("#user").val() == '' || $("#oldPass").val() == '' || $("#pass1").val() == '' || $("#pass2").val() == '') {
+    if ($("#username").val() == '' || $("#pass").val() == '') {
         handleError("All fields are required!");
         return false;
     }
@@ -17,16 +17,16 @@ const passwordUpdateWindow = (props) => {
         onSubmit={handleUpdate}
         action="/settings" 
         method="POST" 
-        className="pupdateForm"
+        className="updateForm"
         >
             <h3>Change Password</h3>
             <label htmlFor="username">Username: </label>
             <input id="username" type="text" name="username" placeholder="Username"/><br/>
             <label htmlFor="pass">New Password: </label>
-            <input id="pass" type="password" name="pass1" placeholder="New Password"/><br/>
+            <input id="pass" type="password" name="pass" placeholder="New Password"/><br/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
             <br/>
-            <input className="passwordChangeSubmit" type="submit" value="Change password"/>
+            <input className="passwordUpdateSubmit" type="submit" value="Update password"/>
             <hr/>
         </form>
     );
@@ -34,7 +34,7 @@ const passwordUpdateWindow = (props) => {
 
 const setup = (csrf) => {    
     ReactDOM.render(
-        <PasswordChangeWindow csrf={csrf} />, document.querySelector("#settings")
+        <passwordUpdateWindow csrf={csrf} />, document.querySelector("#updateForm")
     );
 };
 
