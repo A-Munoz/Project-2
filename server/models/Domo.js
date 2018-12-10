@@ -96,14 +96,14 @@ DomoSchema.statics.removeCharacter = (ownerId, cName, callback) => {
     
     return DomoModel.find(search).remove().exec(callback);
 };
-DomoSchema.statics.update = (ownerId, cName, callback) => {
+/*DomoSchema.statics.update = (ownerId, cName, callback) => {
     //https://mongoosejs.com/docs/models.html
     return DomoModel.updateone({
         name: cName
     }, function (error) {
         return handleError(error);
     });
-};
+};*/
 
 DomoModel = mongoose.model('Domo', DomoSchema);
 
